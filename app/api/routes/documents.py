@@ -47,7 +47,7 @@ async def upload_document(file: UploadFile = File(...)):
 
     # Process and index
     try:
-        chunks, doc_id = process_pdf(save_path)
+        chunks, doc_id = process_pdf(save_path, content)
 
         # Idempotency check — don't re-index if already exists
         if document_exists(doc_id):

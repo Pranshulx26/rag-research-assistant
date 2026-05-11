@@ -55,16 +55,16 @@ def chunk_document(text: str, filename: str) -> list[Document]:
     logger.info(f"Split into {len(chunks)} chunks")
     return chunks
 
-
-def get_document_id(filename: str) -> str:
+def get_document_id(file_content: bytes) -> str:
     """
-    Stable unique ID for a document based on filename.
-    Same file always gets the same ID.
+    Stable unique ID based on file content, not filename.
+    Two files with the same name but different content
+    get different IDs. Same file always gets the same ID.
     """
-    return hashlib.md5(filename.encode()).hexdigest()
+    return hashlib.md5(file_content).hexdigest()
 
 
-def process_pdf(pdf_path: Path) -> tuple[list[Document], str]:
+def process_pdf(pdf_path: Path, file_content: bytes) -> tuple[list[Document], str]:
     """
     Full pipeline: PDF file → chunks ready for embedding.
     Returns chunks and the document ID.
@@ -72,10 +72,12 @@ def process_pdf(pdf_path: Path) -> tuple[list[Document], str]:
     text = extract_text_from_pdf(pdf_path)
 
     if not text.strip():
-        raise ValueError(f"No text could be extracted from {pdf_path.name}. "
-                         "The PDF may be scanned or image-based.")
+        raise ValueError(
+            f"No text could be extracted from {pdf_path.name}. "
+            "The PDF may be scanned or image-based."
+        )
 
     chunks = chunk_document(text, pdf_path.name)
-    doc_id = get_document_id(pdf_path.name)
+    doc_id = get_document_id(file_content)  
 
     return chunks, doc_id
