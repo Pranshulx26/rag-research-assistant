@@ -2,7 +2,7 @@ from pathlib import Path
 from loguru import logger 
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.schema import Document
+from langchain_core.documents import Document
 
 from app.core.config import get_settings
 
@@ -17,7 +17,7 @@ def get_embeddings() -> GoogleGenerativeAIEmbeddings:
     if _embeddings is None:
         logger.info('Initialising Google embedding model')
         _embeddings = GoogleGenerativeAIEmbeddings(
-            model='models/embedding-001',
+            model='models/gemini-embedding-001',
             google_api_key=settings.gemini_api_key
         )
     return _embeddings

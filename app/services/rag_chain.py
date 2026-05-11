@@ -1,6 +1,6 @@
 from loguru import logger
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_core.prompts import ChatPromptTemplate
 
 from app.core.config import get_settings

@@ -11,7 +11,7 @@ class Settings(BaseSettings):
 
     # Gemini
     gemini_api_key: str 
-    gemini_model: str = 'gemini-1.5-flash'
+    gemini_model: str = 'gemini-2.5-flash'
 
     # RAG parambers 
     chunk_size: int = 1000
@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     vectorstore_dir: Path = Path('data/vectorstore')
 
     model_config = SettingsConfigDict(
-        evn_file='.env',
+        env_file='.env',
         case_sensitive=False
     )
 
